@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozee.tv - Protected Indie Library</title>
+    
+    <style>
+        /* 🎨 THE COZEE LIBRARY DESIGN SYSTEM (PURE CSS) */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Garamond', 'EB Garamond', serif; 
+            background-color: #d6cfbf; /* Aged Paper Canvas */
+            color: #4e4d49; /* Deep Ink */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER SECTION (Dark Wood Shelf) */
+        header {
+            background-color: #725e45; /* Dark Wood */
+            color: #d6cfbf;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            user-select: none;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #e2c58d; /* Glowing Desk Lamp Gold */
+        }
+
+        nav a {
+            color: #e2c58d;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        nav a.active {
+            border-bottom: 2px solid #e2c58d;
+            padding-bottom: 4px;
+        }
+
+        .shield-badge {
+            background-color: #b7946a; /* Book Leather */
+            color: #4e4d49;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* MAIN CONTENT AREA */
+        main {
+            flex: 1;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .bookshelf-title-bar {
+            border-bottom: 1px solid rgba(183, 148, 106, 0.4);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .bookshelf-title-bar h2 {
+            font-size: 36px;
+            margin-bottom: 5px;
+        }
+
+        .bookshelf-title-bar p {
+            font-style: italic;
+            opacity: 0.75;
+            font-size: 16px;
+        }
+
+        /* DUAL CARDS GRID DISPLAY */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .comic-card {
+            background-color: rgba(255, 255, 255, 0.25);
+            border: 1px solid #725e45;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #e2c58d;
+            color: #4e4d49;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 3px;
+            letter-spacing: 1px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .mock-image-frame {
+            width: 100%;
+            height: 240px;
+            background-color: rgba(78, 77, 73, 0.1);
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .comic-card h4 {
+            font-size: 22px;
+            margin-bottom: 2px;
+        }
+
+        .comic-card .artist-name {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+
+        /* YOUR CUSTOM READ/UNREAD LINK COLORS */
+        .link-read {
+            color: #72668a; /* Soft Dusty Purple */
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .link-unread {
+            color: #ccb0be; /* Glowing Soft Rose-Lavender */
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .link-read:hover, .link-unread:hover {
+            text-decoration: underline;
+        }
+
+        /* 🛡️ SECURITY BLUR INVENTION LOGIC */
+        .secure-blur { 
+            filter: blur(25px); 
+            transition: filter 0.4s ease; 
+            pointer-events: none; 
+        }
+        
+        .secure-clear { 
+            filter: blur(0px); 
+            transition: filter 0.2s ease; 
+        }
+
+        /* TEASER ART CONTAINER SYSTEM */
+        #teaser-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 9999;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        #teaser-overlay.visible {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .teaser-box {
+            background-color: #725e45;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 360px;
+            width: 100%;
+            border: 1px solid #e2c58d;
+            text-align: center;
+            color: #d6cfbf;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .mock-teaser-art {
+            width: 100%;
+            height: 180px;
+            background-color: #b7946a;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(226, 197, 141, 0.3);
+        }
+
+        .teaser-box h3 {
+            color: #e2c58d;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .teaser-box p {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .teaser-badge {
+            font-size: 12px;
+            background-color: #4e4d49;
+            padding: 4px 12px;
+            border-radius: 3px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER BAR -->
+    <header>
+        <div class="logo">cozee.tv</div>
+        <nav>
+            <a href="#">Gallery</a>
+            <a href="#" class="active">Comics</a>
+            <a href="#">Shop</a>
+        </nav>
+        <div class="shield-badge">AI SHIELD ACTIVE</div>
+    </header>
+
+    <!-- MAIN APP CANVAS -->
+    <main>
+        
+        <!-- CUSTOM SECURITY PAUSE BANNER OVERLAY -->
+        <div id="teaser-overlay">
+            <div class="teaser-box">
+                <div class="mock-teaser-art"></div>
+                <h3>Reading Paused</h3>
+                <p>Move your mouse or touch the screen to resume secure reading.</p>
+                <div class="teaser-badge">PROTECTED BY COZEE.TV</div>
+            </div>
+        </div>
+
+        <!-- PROTECTED GRAPHIC GRID CONTENT -->
+        <div id="protected-content" class="secure-clear">
+            <div class="bookshelf-title-bar">
+                <h2>Your Cozy Bookshelf</h2>
+                <p>Welcome back, reader. Settle into a secure space.</p>
+            </div>
+
+            <div class="grid-container">
+                <!-- PANEL ONE: COMPLETED CONTENT LINK -->
+                <div class="comic-card">
+                    <div>
+                        <div class="mock-image-frame"></div>
+                        <h4>The Sorcerer's Inkwell</h4>
+                        <div class="artist-name">By ArtistName</div>
+                    </div>
+                    <a href="#" class="link-read">Chapter 1: Finished Reading</a>
+                </div>
+
+                <!-- PANEL TWO: FRESH CONTENT LINK -->
+                <div class="comic-card">
+                    <div class="new-badge">NEW</div>
+                    <div>
+                        <div class="mock-image-frame"></div>
+                        <h4>The Sorcerer's Inkwell</h4>
+                        <div class="artist-name">By ArtistName</div>
+                    </div>
+                    <a href="#" class="link-unread">Chapter 2: Unread Content</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🧠 AUTOMATED CURSOR DETECTION SCRIPT -->
+    <script>
+        const contentBox = document.getElementById('protected-content');
+        const teaserOverlay = document.getElementById('teaser-overlay');
+        let idleTimer;
+        
+        // Triggers security shield frame after 6 seconds of static positioning
+        const IDLE_TIMEOUT_MS = 6000;
+
+        function triggerProtection() {
+            contentBox.classList.remove('secure-clear');
+            contentBox.classList.add('secure-blur');
+            teaserOverlay.classList.add('visible');
+        }
+
+        function removeProtection() {
+            contentBox.classList.remove('secure-blur');
+            contentBox.classList.add('secure-clear');
+            teaserOverlay.classList.remove('visible');
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(triggerProtection, IDLE_TIMEOUT_MS);
+        }
+
+        // Monitors interface activity vectors
+        window.onload = resetTimer;
+        window.onmousemove = removeProtection;
+        window.onmousedown = removeProtection; 
+        window.ontouchstart = removeProtection; 
+        window.onscroll = removeProtection;    
+        window.onkeypress = removeProtection;  
+    </script>
+</body>
+</html>
