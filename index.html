@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozee.tv - Protected Indie Library</title>
+    
+    <!-- 1. Tailwind CSS Integration (Styling Framework) -->
+    <script src="https://tailwindcss.com"></script>
+    
+    <!-- 2. Google Fonts Integration (EB Garamond) -->
+    <link rel="preconnect" href="https://gstatic.com">
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <!-- 3. FontAwesome Integration (Interface Icons) -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+
+    <style>
+        /* Applying EB Garamond across the ENTIRE website */
+        body, h1, h2, h3, h4, nav, button, span { 
+            font-family: 'EB Garamond', serif; 
+            background-color: #d6cfbf; 
+            color: #4e4d49; 
+        }
+        /* Smooth transitions for our security blur invention */
+        .secure-blur { filter: blur(25px); transition: filter 0.4s ease; pointer-events: none; }
+        .secure-clear { filter: blur(0px); transition: filter 0.2s ease; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#e2c58d]">
+
+    <!-- COZEE HEADER (Shelf Layout) -->
+    <header class="bg-[#725e45] text-[#d6cfbf] shadow-md px-6 py-4 flex justify-between items-center select-none">
+        <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-book-open text-[#e2c58d] text-2xl"></i>
+            <span class="text-3xl font-semibold tracking-wide text-[#e2c58d]">cozee.tv</span>
+        </div>
+        <nav class="hidden md:flex space-x-8 text-xl font-medium">
+            <a href="#" class="hover:text-[#e2c58d] transition-colors"><i class="fa-solid fa-palette mr-1"></i> Gallery</a>
+            <a href="#" class="text-[#e2c58d] border-b border-[#e2c58d] pb-1"><i class="fa-solid fa-book mr-1"></i> Comics</a>
+            <a href="#" class="hover:text-[#e2c58d] transition-colors"><i class="fa-solid fa-shop mr-1"></i> Shop</a>
+        </nav>
+        <div class="text-sm bg-[#b7946a] text-[#4e4d49] px-3 py-1 rounded font-bold shadow-sm">
+            <i class="fa-solid fa-shield-halved text-[#725e45]"></i> AI SHIELD ACTIVE
+        </div>
+    </header>
+
+    <!-- MAIN INTERFACE MAIN CONTAINER -->
+    <main class="flex-1 max-w-5xl w-full mx-auto p-6 md:py-12 position-relative">
+        
+        <!-- TEASER ART POPUP OVERLAY (Hidden by default, triggered on idle blur) -->
+        <div id="teaser-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm hidden pointer-events-none transition-opacity duration-300 opacity-0">
+            <div class="bg-[#725e45] p-6 rounded-lg shadow-2xl max-w-sm border border-[#e2c58d] text-center text-[#d6cfbf]">
+                <!-- MOCK TEASER CARD IMAGE -->
+                <div class="w-full h-48 bg-[#b7946a] rounded flex items-center justify-center mb-4 text-[#4e4d49] font-bold border border-[#e2c58d]/30">
+                    <i class="fa-solid fa-image text-4xl opacity-40"></i>
+                </div>
+                <h3 class="text-2xl font-semibold text-[#e2c58d] mb-1">Reading Paused</h3>
+                <p class="text-sm font-light opacity-80 mb-4">Move your mouse or touch the screen to resume secure reading.</p>
+                <div class="text-xs bg-[#4e4d49] py-1 px-3 rounded inline-block tracking-wider font-mono">PROTECTED BY COZEE.TV</div>
+            </div>
+        </div>
+
+        <!-- MOCK COMIC BOOKSHELF VIEW -->
+        <div id="protected-content" class="secure-clear">
+            <div class="border-b border-[#b7946a]/40 pb-4 mb-8">
+                <h2 class="text-4xl font-bold text-[#4e4d49]">Your Cozy Bookshelf</h2>
+                <p class="text-lg italic opacity-75">Welcome back, reader. Settle into a secure space.</p>
+            </div>
+
+            <!-- DUAL CARDS GRID -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- CARD 1: READ CHAPTER -->
+                <div class="bg-[#725e45]/5 border border-[#725e45]/20 p-5 rounded-lg shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-full h-64 bg-[#4e4d49]/10 rounded mb-4 flex items-center justify-center text-stone-400">
+                            <i class="fa-solid fa-file-image text-3xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold">The Sorcerer's Inkwell</h4>
+                        <p class="text-sm opacity-70 mb-3">By ArtistName</p>
+                    </div>
+                    <a href="#" class="text-[#72668a] text-lg font-semibold hover:underline flex items-center">
+                        <i class="fa-solid fa-circle-check mr-1.5 text-sm"></i> Chapter 1: Finished Reading
+                    </a>
+                </div>
+
+                <!-- CARD 2: UNREAD CHAPTER -->
+                <div class="bg-[#725e45]/5 border border-[#725e45]/20 p-5 rounded-lg shadow-sm flex flex-col justify-between relative">
+                    <div class="absolute top-3 right-3 bg-[#e2c58d] text-[#4e4d49] text-xs font-extrabold px-2 py-0.5 rounded shadow-sm tracking-wider">NEW</div>
+                    <div>
+                        <div class="w-full h-64 bg-[#4e4d49]/10 rounded mb-4 flex items-center justify-center text-stone-400">
+                            <i class="fa-solid fa-file-image text-3xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold">The Sorcerer's Inkwell</h4>
+                        <p class="text-sm opacity-70 mb-3">By ArtistName</p>
+                    </div>
+                    <a href="#" class="text-[#ccb0be] text-lg font-semibold hover:underline flex items-center">
+                        <i class="fa-solid fa-circle-play mr-1.5 text-sm animate-pulse"></i> Chapter 2: Unread Content
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 4. JAVASCRIPT: THE IDLE-BLUR WATCHDOG -->
+    <script>
+        const contentBox = document.getElementById('protected-content');
+        const teaserOverlay = document.getElementById('teaser-overlay');
+        
+        let idleTimer;
+        const IDLE_TIMEOUT_MS = 6000; // Set to 6 seconds for fast testing! (Change to 20000 later)
+
+        function triggerProtection() {
+            contentBox.classList.remove('secure-clear');
+            contentBox.classList.add('secure-blur');
+            
+            teaserOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                teaserOverlay.classList.remove('opacity-0');
+                teaserOverlay.classList.add('opacity-100');
+            }, 5);
+        }
+
+        function removeProtection() {
+            contentBox.classList.remove('secure-blur');
+            contentBox.classList.add('secure-clear');
+            
+            teaserOverlay.classList.remove('opacity-100');
+            teaserOverlay.classList.add('opacity-0');
+            setTimeout(() => {
+                teaserOverlay.classList.add('hidden');
+            }, 300);
+            
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(triggerProtection, IDLE_TIMEOUT_MS);
+        }
+
+        window.onload = resetTimer;
+        window.onmousemove = removeProtection;
+        window.onmousedown = removeProtection; 
+        window.ontouchstart = removeProtection; 
+        window.onscroll = removeProtection;    
+        window.onkeypress = removeProtection;  
+    </script>
+</body>
+</html>
